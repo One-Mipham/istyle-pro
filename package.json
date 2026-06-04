@@ -1,0 +1,10 @@
+{
+  "name": "istyle-pro",
+  "private": true,
+  "scripts": {
+    "dev:api": "pnpm --filter @istyle/api dev",
+    "dev:mobile": "pnpm --filter @istyle/mobile start",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck"
+  }
+}

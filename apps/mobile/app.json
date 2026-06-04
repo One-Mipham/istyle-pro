@@ -1,0 +1,59 @@
+{
+  "expo": {
+    "name": "iStyle Pro",
+    "slug": "istyle-pro",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "scheme": "istyle",
+    "owner": "one-mipham",
+    "plugins": [
+      "expo-router",
+      "expo-camera",
+      "expo-secure-store"
+    ],
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.omc.istyle",
+      "buildNumber": "1",
+      "infoPlist": {
+        "NSCameraUsageDescription": "iStyle Pro needs camera access to take your full-body photo for AI styling.",
+        "NSPhotoLibraryUsageDescription": "iStyle Pro needs photo library access to save AI-generated style images to your album.",
+        "NSPhotoLibraryAddUsageDescription": "iStyle Pro needs permission to save generated style images to your photo library.",
+        "CFBundleDevelopmentRegion": "zh_CN",
+        "CFBundleDisplayName": "iStyle Pro",
+        "CFBundleShortVersionString": "0.1.0"
+      },
+      "privacyManifests": {
+        "NSPrivacyAccessedAPITypes": [
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryFileTimestamp",
+            "NSPrivacyAccessedAPITypeReasons": ["C617.1"]
+          },
+          {
+            "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
+            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+          }
+        ]
+      }
+    },
+    "android": {
+      "package": "com.omc.istyle",
+      "versionCode": 1,
+      "permissions": ["CAMERA", "READ_EXTERNAL_STORAGE", "WRITE_EXTERNAL_STORAGE"],
+      "adaptiveIcon": {
+        "backgroundColor": "#0F172A",
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundImage": "./assets/adaptive-icon-background.png"
+      }
+    },
+    "web": {
+      "bundler": "metro",
+      "output": "static"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "istyle-pro"
+      }
+    }
+  }
+}
