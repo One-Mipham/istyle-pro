@@ -43,7 +43,6 @@ const worker = new Worker<GenerateJob>('image-generation', async (job) => {
 }, {
   connection: { url: config.REDIS_URL },
   concurrency: 1,
-  attempts: 2,
 });
 
 worker.on('failed', async (job, err) => {

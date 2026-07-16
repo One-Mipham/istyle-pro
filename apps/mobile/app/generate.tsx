@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { View, Text, Pressable, StyleSheet } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 import * as FileSystem from 'expo-file-system';
+import { colors, spacing, radius, fontSize, fontWeight } from '@istyle/shared';
 import { api } from '../lib/api';
 import { useQuota } from '../lib/quota';
 import { GenerationProgress } from '../components/GenerationProgress';
@@ -91,10 +92,10 @@ export default function Generate() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, backgroundColor: '#0F172A', gap: 32 },
-  title: { fontSize: 24, fontWeight: '700', color: '#F8FAFC' },
-  errorBox: { alignItems: 'center', gap: 16 },
-  error: { color: '#EF4444', fontSize: 16 },
-  button: { backgroundColor: '#6366F1', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: spacing['2xl'], backgroundColor: colors.bg, gap: spacing['3xl'] },
+  title: { fontSize: fontSize['4xl'], fontWeight: fontWeight.bold, color: colors.text },
+  errorBox: { alignItems: 'center', gap: spacing.lg },
+  error: { color: colors.error, fontSize: fontSize.lg },
+  button: { backgroundColor: colors.primary, paddingHorizontal: spacing['3xl'], paddingVertical: spacing.xl - 2, borderRadius: radius.lg },
+  buttonText: { color: colors.white, fontSize: fontSize.lg, fontWeight: fontWeight.semibold },
 });

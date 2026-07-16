@@ -1,4 +1,5 @@
 import { View, Text, StyleSheet } from 'react-native';
+import { colors, spacing, radius, fontSize, fontWeight } from '@istyle/shared';
 import { useQuota } from '../lib/quota';
 
 export function QuotaBadge() {
@@ -11,6 +12,16 @@ export function QuotaBadge() {
 }
 
 const styles = StyleSheet.create({
-  badge: { position: 'absolute', top: 8, right: 16, backgroundColor: '#1E293B', paddingHorizontal: 12, paddingVertical: 6, borderRadius: 16, borderWidth: 1, borderColor: '#334155' },
-  text: { color: '#94A3B8', fontSize: 12 },
+  badge: {
+    position: 'absolute',
+    top: spacing.sm,
+    right: spacing.lg,
+    backgroundColor: colors.surface,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs + 2, // 6
+    borderRadius: radius['2xl'],
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  text: { color: colors.textSecondary, fontSize: fontSize.sm },
 });

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { View, FlatList, Pressable, Text, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { colors, spacing, radius, fontSize, fontWeight } from '@istyle/shared';
 import { api } from '../../lib/api';
 import { StyleCard } from '../../components/StyleCard';
 import { CategoryFilter } from '../../components/CategoryFilter';
@@ -47,8 +48,17 @@ export default function Explore() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0F172A' },
-  grid: { paddingHorizontal: 12 },
-  fab: { position: 'absolute', bottom: 24, left: 24, right: 24, backgroundColor: '#6366F1', paddingVertical: 16, borderRadius: 14, alignItems: 'center' },
-  fabText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+  container: { flex: 1, backgroundColor: colors.bg },
+  grid: { paddingHorizontal: spacing.md },
+  fab: {
+    position: 'absolute',
+    bottom: spacing['2xl'],
+    left: spacing['2xl'],
+    right: spacing['2xl'],
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.lg,
+    borderRadius: radius.xl,
+    alignItems: 'center',
+  },
+  fabText: { color: colors.white, fontSize: fontSize.lg, fontWeight: fontWeight.semibold },
 });

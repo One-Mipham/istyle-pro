@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { colors, spacing, radius, fontSize, fontWeight, common } from '@istyle/shared';
 import { useAuth } from '../../lib/auth';
 
 export default function Login() {
@@ -23,8 +24,8 @@ export default function Login() {
     <View style={s.container}>
       <Text style={s.title}>登录</Text>
       {error ? <Text style={s.error}>{error}</Text> : null}
-      <TextInput style={s.input} placeholder="邮箱" keyboardType="email-address" autoCapitalize="none" value={email} onChangeText={setEmail} placeholderTextColor="#64748B" />
-      <TextInput style={s.input} placeholder="密码" secureTextEntry value={password} onChangeText={setPassword} placeholderTextColor="#64748B" />
+      <TextInput style={s.input} placeholder="邮箱" keyboardType="email-address" autoCapitalize="none" value={email} onChangeText={setEmail} placeholderTextColor={colors.textTertiary} />
+      <TextInput style={s.input} placeholder="密码" secureTextEntry value={password} onChangeText={setPassword} placeholderTextColor={colors.textTertiary} />
       <Pressable style={s.button} onPress={handleLogin}>
         <Text style={s.buttonText}>登录</Text>
       </Pressable>
@@ -39,11 +40,11 @@ export default function Login() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: '#0F172A', gap: 16 },
-  title: { fontSize: 28, fontWeight: '700', color: '#F8FAFC', textAlign: 'center' },
-  error: { color: '#EF4444', textAlign: 'center' },
-  input: { backgroundColor: '#1E293B', borderRadius: 10, padding: 14, color: '#F8FAFC', fontSize: 16 },
-  button: { backgroundColor: '#6366F1', paddingVertical: 14, borderRadius: 12, alignItems: 'center' },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  link: { color: '#6366F1', textAlign: 'center', marginTop: 8 },
+  container: { ...common.screenCentered, padding: spacing['2xl'], gap: spacing.lg },
+  title: { ...common.screenTitle },
+  error: { ...common.errorText },
+  input: { ...common.input },
+  button: { ...common.buttonPrimary },
+  buttonText: { ...common.buttonTextPrimary },
+  link: { ...common.link, marginTop: spacing.sm },
 });

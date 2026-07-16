@@ -52,7 +52,7 @@ export const generateRoutes: FastifyPluginAsync = async (app) => {
       originalImageUrl: body.originalImageUrl,
       styleTemplateIds: body.styleTemplateIds,
       prompt,
-    });
+    }, { attempts: 2 });
 
     return reply.status(201).send({ taskId: data.id, status: 'pending', remaining });
   });

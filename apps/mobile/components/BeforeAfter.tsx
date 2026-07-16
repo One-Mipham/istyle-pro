@@ -1,6 +1,7 @@
 import { View, Image, Text, StyleSheet, Dimensions } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, { useSharedValue, useAnimatedStyle } from 'react-native-reanimated';
+import { colors, spacing, radius, fontSize, fontWeight } from '@istyle/shared';
 
 interface BeforeAfterProps {
   beforeUri: string;
@@ -42,7 +43,24 @@ const styles = StyleSheet.create({
   container: { width: SCREEN_WIDTH, height: SCREEN_WIDTH * 1.3, position: 'relative' },
   image: { width: SCREEN_WIDTH, height: '100%', resizeMode: 'cover' },
   overlay: { position: 'absolute', top: 0, left: 0, height: '100%' },
-  handle: { position: 'absolute', top: 0, width: 4, height: '100%', backgroundColor: '#fff' },
-  labels: { position: 'absolute', bottom: 16, left: 0, right: 0, flexDirection: 'row', justifyContent: 'space-between', paddingHorizontal: 24 },
-  label: { color: '#fff', fontSize: 14, fontWeight: '600', backgroundColor: 'rgba(0,0,0,0.5)', paddingHorizontal: 12, paddingVertical: 4, borderRadius: 8, overflow: 'hidden' },
+  handle: { position: 'absolute', top: 0, width: spacing.xs, height: '100%', backgroundColor: colors.white },
+  labels: {
+    position: 'absolute',
+    bottom: spacing.lg,
+    left: 0,
+    right: 0,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: spacing['2xl'],
+  },
+  label: {
+    color: colors.white,
+    fontSize: fontSize.base,
+    fontWeight: fontWeight.semibold,
+    backgroundColor: colors.overlay,
+    paddingHorizontal: spacing.md,
+    paddingVertical: spacing.xs,
+    borderRadius: radius.sm,
+    overflow: 'hidden',
+  },
 });

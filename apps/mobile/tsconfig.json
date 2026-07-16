@@ -7,5 +7,6 @@
       "@istyle/shared": ["../../packages/shared/src"]
     }
   },
-  "include": ["**/*.ts", "**/*.tsx"]
+  "include": ["**/*.ts", "**/*.tsx"],
+  "exclude": ["__tests__", "**/__tests__/**"]
 }

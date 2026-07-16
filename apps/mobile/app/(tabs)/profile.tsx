@@ -1,5 +1,6 @@
 import { View, Text, Pressable, StyleSheet, Linking } from 'react-native';
 import { router } from 'expo-router';
+import { colors, spacing, radius, fontSize, fontWeight } from '@istyle/shared';
 import { useAuth } from '../../lib/auth';
 
 export default function Profile() {
@@ -60,23 +61,40 @@ export default function Profile() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0F172A', padding: 24, gap: 24 },
-  header: { alignItems: 'center', gap: 12 },
-  avatar: { width: 72, height: 72, borderRadius: 36, backgroundColor: '#6366F1', justifyContent: 'center', alignItems: 'center' },
-  avatarText: { color: '#fff', fontSize: 28, fontWeight: '700' },
-  email: { color: '#F8FAFC', fontSize: 18 },
-  section: { backgroundColor: '#1E293B', borderRadius: 12, padding: 16, gap: 10 },
-  sectionTitle: { color: '#94A3B8', fontSize: 14 },
+  container: { flex: 1, backgroundColor: colors.bg, padding: spacing['2xl'], gap: spacing['2xl'] },
+  header: { alignItems: 'center', gap: spacing.md },
+  avatar: {
+    width: 72,
+    height: 72,
+    borderRadius: 36,
+    backgroundColor: colors.primary,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  avatarText: { color: colors.white, fontSize: fontSize['5xl'], fontWeight: fontWeight.bold },
+  email: { color: colors.text, fontSize: fontSize.xl },
+  section: { backgroundColor: colors.surface, borderRadius: radius.lg, padding: spacing.lg, gap: spacing.md },
+  sectionTitle: { color: colors.textSecondary, fontSize: fontSize.base },
   row: { flexDirection: 'row', justifyContent: 'space-between' },
-  label: { color: '#94A3B8' },
-  value: { color: '#F8FAFC' },
-  plan: { color: '#F8FAFC', fontSize: 16 },
-  upgradeButton: { backgroundColor: '#22C55E', paddingVertical: 12, borderRadius: 10, alignItems: 'center' },
-  upgradeText: { color: '#fff', fontWeight: '600' },
-  loginButton: { backgroundColor: '#6366F1', paddingVertical: 14, borderRadius: 12, alignItems: 'center' },
-  loginText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  logoutButton: { alignItems: 'center', paddingVertical: 14 },
-  logoutText: { color: '#EF4444', fontSize: 16 },
-  link: { color: '#6366F1', fontSize: 16, paddingVertical: 4 },
-  divider: { height: 1, backgroundColor: '#334155', marginVertical: 4 },
+  label: { color: colors.textSecondary },
+  value: { color: colors.text },
+  plan: { color: colors.text, fontSize: fontSize.lg },
+  upgradeButton: {
+    backgroundColor: colors.success,
+    paddingVertical: spacing.md,
+    borderRadius: radius.md,
+    alignItems: 'center',
+  },
+  upgradeText: { color: colors.white, fontWeight: fontWeight.semibold },
+  loginButton: { ...{
+    backgroundColor: colors.primary,
+    paddingVertical: spacing.xl - 2,
+    borderRadius: radius.lg,
+    alignItems: 'center',
+  }},
+  loginText: { color: colors.white, fontSize: fontSize.lg, fontWeight: fontWeight.semibold },
+  logoutButton: { alignItems: 'center', paddingVertical: spacing.xl - 2 },
+  logoutText: { color: colors.error, fontSize: fontSize.lg },
+  link: { color: colors.primary, fontSize: fontSize.lg, paddingVertical: spacing.xs },
+  divider: { height: 1, backgroundColor: colors.border, marginVertical: spacing.xs },
 });

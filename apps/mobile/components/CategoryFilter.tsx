@@ -1,4 +1,5 @@
 import { View, Text, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { colors, spacing, radius, fontSize } from '@istyle/shared';
 
 interface CategoryFilterProps {
   selected: string | null;
@@ -24,9 +25,20 @@ export function CategoryFilter({ selected, onSelect }: CategoryFilterProps) {
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', gap: 8, paddingHorizontal: 16, paddingVertical: 12 },
-  chip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: '#334155' },
-  chipActive: { backgroundColor: '#6366F1', borderColor: '#6366F1' },
-  chipText: { color: '#94A3B8', fontSize: 14 },
-  chipTextActive: { color: '#fff', fontSize: 14 },
+  row: {
+    flexDirection: 'row',
+    gap: spacing.sm,
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.md,
+  },
+  chip: {
+    paddingHorizontal: spacing.lg,
+    paddingVertical: spacing.sm,
+    borderRadius: radius.pill,
+    borderWidth: 1,
+    borderColor: colors.border,
+  },
+  chipActive: { backgroundColor: colors.primary, borderColor: colors.primary },
+  chipText: { color: colors.textSecondary, fontSize: fontSize.base },
+  chipTextActive: { color: colors.white, fontSize: fontSize.base },
 });

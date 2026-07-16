@@ -1,4 +1,5 @@
 import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { colors, spacing, radius, fontSize, fontWeight } from '@istyle/shared';
 
 export default function PrivacyPolicy() {
   return (
@@ -41,9 +42,9 @@ export default function PrivacyPolicy() {
 }
 
 const s = StyleSheet.create({
-  container: { padding: 24, backgroundColor: '#0F172A', gap: 12 },
-  title: { fontSize: 24, fontWeight: '700', color: '#F8FAFC', marginBottom: 4 },
-  date: { fontSize: 13, color: '#64748B', marginBottom: 12 },
-  h2: { fontSize: 18, fontWeight: '600', color: '#E2E8F0', marginTop: 16 },
-  p: { fontSize: 15, color: '#94A3B8', lineHeight: 22 },
+  container: { padding: spacing['2xl'], backgroundColor: colors.bg, gap: spacing.md },
+  title: { fontSize: fontSize['4xl'], fontWeight: fontWeight.bold, color: colors.text, marginBottom: spacing.xs },
+  date: { fontSize: fontSize.sm + 1, color: colors.textTertiary, marginBottom: spacing.md },
+  h2: { fontSize: fontSize.xl, fontWeight: fontWeight.semibold, color: '#E2E8F0', marginTop: spacing.lg },
+  p: { fontSize: fontSize.base + 1, color: colors.textSecondary, lineHeight: 22 },
 });

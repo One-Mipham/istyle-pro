@@ -1,5 +1,6 @@
 import { View, Text, FlatList, Image, StyleSheet } from 'react-native';
 import { useState, useEffect } from 'react';
+import { colors, spacing, radius, fontSize, fontWeight } from '@istyle/shared';
 import { api } from '../../lib/api';
 import type { GenerationRecord } from '@istyle/shared';
 
@@ -38,14 +39,20 @@ export default function History() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#0F172A' },
-  empty: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: 8 },
-  emptyText: { color: '#94A3B8', fontSize: 18 },
-  emptyHint: { color: '#64748B', fontSize: 14 },
-  list: { padding: 16, gap: 12 },
-  card: { flexDirection: 'row', backgroundColor: '#1E293B', borderRadius: 12, padding: 12, gap: 12 },
-  thumb: { width: 64, height: 96, borderRadius: 8 },
+  container: { flex: 1, backgroundColor: colors.bg },
+  empty: { flex: 1, justifyContent: 'center', alignItems: 'center', gap: spacing.sm },
+  emptyText: { color: colors.textSecondary, fontSize: fontSize.xl },
+  emptyHint: { color: colors.textTertiary, fontSize: fontSize.base },
+  list: { padding: spacing.lg, gap: spacing.md },
+  card: {
+    flexDirection: 'row',
+    backgroundColor: colors.surface,
+    borderRadius: radius.lg,
+    padding: spacing.md,
+    gap: spacing.md,
+  },
+  thumb: { width: 64, height: 96, borderRadius: radius.sm },
   info: { justifyContent: 'center' },
-  date: { color: '#F8FAFC', fontSize: 14, fontWeight: '600' },
-  status: { color: '#94A3B8', fontSize: 12, marginTop: 4 },
+  date: { color: colors.text, fontSize: fontSize.base, fontWeight: fontWeight.semibold },
+  status: { color: colors.textSecondary, fontSize: fontSize.sm, marginTop: spacing.xs },
 });

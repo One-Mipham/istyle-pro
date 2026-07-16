@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, StyleSheet, Pressable, TextInput, ScrollView } from 'react-native';
 import { router } from 'expo-router';
+import { colors, spacing, radius, fontSize, fontWeight, common } from '@istyle/shared';
 
 export default function Onboarding() {
   const [step, setStep] = useState(0);
@@ -32,26 +33,26 @@ export default function Onboarding() {
 
   if (step === 1) {
     return (
-      <ScrollView contentContainerStyle={s.container}>
+      <ScrollView contentContainerStyle={s.scrollContainer}>
         <Text style={s.title}>完善档案</Text>
         <Text style={s.body}>帮助 AI 更懂你</Text>
 
         <View style={s.row}>
           {(['male', 'female', 'other'] as const).map(g => (
-            <Pressable key={g} style={[s.chip, gender === g && s.chipActive]} onPress={() => setGender(g)}>
+            <Pressable key={g} style={[common.chip, gender === g && common.chipActive]} onPress={() => setGender(g)}>
               <Text style={gender === g ? s.chipTextActive : s.chipText}>{g === 'male' ? '男' : g === 'female' ? '女' : '其他'}</Text>
             </Pressable>
           ))}
         </View>
 
-        <TextInput style={s.input} placeholder="年龄" keyboardType="numeric" value={age} onChangeText={setAge} placeholderTextColor="#64748B" />
-        <TextInput style={s.input} placeholder="身高 (cm)" keyboardType="numeric" value={heightCm} onChangeText={setHeightCm} placeholderTextColor="#64748B" />
-        <TextInput style={s.input} placeholder="体重 (kg)" keyboardType="numeric" value={weightKg} onChangeText={setWeightKg} placeholderTextColor="#64748B" />
+        <TextInput style={s.input} placeholder="年龄" keyboardType="numeric" value={age} onChangeText={setAge} placeholderTextColor={colors.textTertiary} />
+        <TextInput style={s.input} placeholder="身高 (cm)" keyboardType="numeric" value={heightCm} onChangeText={setHeightCm} placeholderTextColor={colors.textTertiary} />
+        <TextInput style={s.input} placeholder="体重 (kg)" keyboardType="numeric" value={weightKg} onChangeText={setWeightKg} placeholderTextColor={colors.textTertiary} />
 
         <Text style={s.label}>偏好风格（可多选）</Text>
         <View style={s.row}>
           {['casual', 'formal', 'sport'].map(style => (
-            <Pressable key={style} style={[s.chip, preferredStyles.includes(style) && s.chipActive]} onPress={() => toggleStyle(style)}>
+            <Pressable key={style} style={[common.chip, preferredStyles.includes(style) && common.chipActive]} onPress={() => toggleStyle(style)}>
               <Text style={preferredStyles.includes(style) ? s.chipTextActive : s.chipText}>{style === 'casual' ? '休闲' : style === 'formal' ? '职业' : '运动'}</Text>
             </Pressable>
           ))}
@@ -76,18 +77,17 @@ export default function Onboarding() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 24, backgroundColor: '#0F172A', gap: 16 },
-  title: { fontSize: 28, fontWeight: '700', color: '#F8FAFC' },
-  subtitle: { fontSize: 18, color: '#94A3B8' },
-  body: { fontSize: 16, color: '#CBD5E1', textAlign: 'center' },
-  label: { fontSize: 14, color: '#94A3B8', alignSelf: 'flex-start' },
-  button: { backgroundColor: '#6366F1', paddingHorizontal: 32, paddingVertical: 14, borderRadius: 12 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  skip: { color: '#64748B', marginTop: 12 },
-  input: { width: '100%', backgroundColor: '#1E293B', borderRadius: 10, padding: 14, color: '#F8FAFC', fontSize: 16 },
-  row: { flexDirection: 'row', gap: 8, flexWrap: 'wrap' },
-  chip: { paddingHorizontal: 16, paddingVertical: 8, borderRadius: 20, borderWidth: 1, borderColor: '#334155' },
-  chipActive: { backgroundColor: '#6366F1', borderColor: '#6366F1' },
-  chipText: { color: '#94A3B8' },
-  chipTextActive: { color: '#fff' },
+  container: { ...common.screenCentered, gap: spacing.lg },
+  scrollContainer: { flexGrow: 1, justifyContent: 'center', alignItems: 'center', padding: spacing['2xl'], backgroundColor: colors.bg, gap: spacing.lg },
+  title: { fontSize: fontSize['5xl'], fontWeight: fontWeight.bold, color: colors.text },
+  subtitle: { fontSize: fontSize.xl, color: colors.textSecondary },
+  body: { fontSize: fontSize.lg, color: '#CBD5E1', textAlign: 'center' },
+  label: { fontSize: fontSize.base, color: colors.textSecondary, alignSelf: 'flex-start' },
+  button: { backgroundColor: colors.primary, paddingHorizontal: spacing['3xl'], paddingVertical: spacing.xl - 2, borderRadius: radius.lg },
+  buttonText: { color: colors.white, fontSize: fontSize.lg, fontWeight: fontWeight.semibold },
+  skip: { color: colors.textTertiary, marginTop: spacing.md },
+  input: { ...common.input, width: '100%' },
+  row: { flexDirection: 'row', gap: spacing.sm, flexWrap: 'wrap' },
+  chipText: { color: colors.textSecondary },
+  chipTextActive: { color: colors.white },
 });

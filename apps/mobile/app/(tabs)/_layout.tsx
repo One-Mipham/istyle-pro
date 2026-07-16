@@ -1,13 +1,14 @@
 import { Tabs } from 'expo-router';
+import { colors } from '@istyle/shared';
 
 export default function TabLayout() {
   return (
     <Tabs screenOptions={{
-      headerStyle: { backgroundColor: '#0F172A' },
-      headerTintColor: '#F8FAFC',
-      tabBarStyle: { backgroundColor: '#0F172A', borderTopColor: '#1E293B' },
-      tabBarActiveTintColor: '#6366F1',
-      tabBarInactiveTintColor: '#64748B',
+      headerStyle: { backgroundColor: colors.bg },
+      headerTintColor: colors.text,
+      tabBarStyle: { backgroundColor: colors.bg, borderTopColor: colors.surface },
+      tabBarActiveTintColor: colors.primary,
+      tabBarInactiveTintColor: colors.textTertiary,
     }}>
       <Tabs.Screen name="index" options={{ title: '首页' }} />
       <Tabs.Screen name="explore" options={{ title: '探索' }} />

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { View, Text, TextInput, Pressable, StyleSheet } from 'react-native';
 import { router } from 'expo-router';
+import { colors, spacing, radius, fontSize, fontWeight, common } from '@istyle/shared';
 import { api } from '../../lib/api';
 
 export default function ResetPassword() {
@@ -39,8 +40,8 @@ export default function ResetPassword() {
       <Text style={s.title}>重置密码</Text>
       <Text style={s.hint}>输入注册邮箱和新密码即可重置</Text>
       {error ? <Text style={s.error}>{error}</Text> : null}
-      <TextInput style={s.input} placeholder="注册邮箱" keyboardType="email-address" autoCapitalize="none" value={email} onChangeText={setEmail} placeholderTextColor="#64748B" />
-      <TextInput style={s.input} placeholder="新密码 (8位数字)" keyboardType="numeric" secureTextEntry maxLength={8} value={newPassword} onChangeText={setNewPassword} placeholderTextColor="#64748B" />
+      <TextInput style={s.input} placeholder="注册邮箱" keyboardType="email-address" autoCapitalize="none" value={email} onChangeText={setEmail} placeholderTextColor={colors.textTertiary} />
+      <TextInput style={s.input} placeholder="新密码 (8位数字)" keyboardType="numeric" secureTextEntry maxLength={8} value={newPassword} onChangeText={setNewPassword} placeholderTextColor={colors.textTertiary} />
       <Pressable style={s.button} onPress={handleReset}>
         <Text style={s.buttonText}>重置密码</Text>
       </Pressable>
@@ -52,12 +53,12 @@ export default function ResetPassword() {
 }
 
 const s = StyleSheet.create({
-  container: { flex: 1, justifyContent: 'center', padding: 24, backgroundColor: '#0F172A', gap: 16 },
-  title: { fontSize: 28, fontWeight: '700', color: '#F8FAFC', textAlign: 'center' },
-  hint: { fontSize: 14, color: '#94A3B8', textAlign: 'center' },
-  error: { color: '#EF4444', textAlign: 'center' },
-  input: { backgroundColor: '#1E293B', borderRadius: 10, padding: 14, color: '#F8FAFC', fontSize: 16 },
-  button: { backgroundColor: '#6366F1', paddingVertical: 14, borderRadius: 12, alignItems: 'center' },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-  link: { color: '#6366F1', textAlign: 'center' },
+  container: { ...common.screenCentered, padding: spacing['2xl'], gap: spacing.lg },
+  title: { ...common.screenTitle },
+  hint: { fontSize: fontSize.base, color: colors.textSecondary, textAlign: 'center' },
+  error: { ...common.errorText },
+  input: { ...common.input },
+  button: { ...common.buttonPrimary },
+  buttonText: { ...common.buttonTextPrimary },
+  link: { ...common.link },
 });
