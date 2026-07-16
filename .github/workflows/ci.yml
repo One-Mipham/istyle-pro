@@ -37,6 +37,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - run: pnpm install --filter @istyle/mobile
+      - run: pnpm install --filter @istyle/shared --filter @istyle/mobile
+      - run: pnpm --filter @istyle/shared build
       - run: pnpm --filter @istyle/mobile typecheck
       - run: pnpm --filter @istyle/mobile test
