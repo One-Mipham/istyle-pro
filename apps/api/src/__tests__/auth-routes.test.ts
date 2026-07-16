@@ -72,6 +72,7 @@ describe('Auth Routes — POST /api/auth/register', () => {
       error: null,
     });
 
+    // Profile insert
     mockSupabaseAdmin.from.mockReturnValueOnce({
       insert: vi.fn().mockReturnThis(),
       select: vi.fn().mockReturnThis(),
@@ -83,6 +84,10 @@ describe('Auth Routes — POST /api/auth/register', () => {
         },
         error: null,
       }),
+    });
+    // Trial subscription insert
+    mockSupabaseAdmin.from.mockReturnValueOnce({
+      insert: vi.fn().mockResolvedValue({ error: null }),
     });
 
     const res = await app.inject({
