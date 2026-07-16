@@ -1,0 +1,76 @@
+{
+  "name": "@istyle/desktop",
+  "version": "0.1.0",
+  "description": "iStyle Pro Desktop — AI virtual try-on for Windows & Mac",
+  "author": "One Mipham Corporation",
+  "license": "UNLICENSED",
+  "main": "main.cjs",
+  "scripts": {
+    "dev": "electron .",
+    "build:win": "electron-builder --win --x64",
+    "build:mac": "electron-builder --mac --x64 --arm64",
+    "build:all": "electron-builder --win --mac",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "devDependencies": {
+    "electron": "^33.0.0",
+    "electron-builder": "^25.0.0"
+  },
+  "build": {
+    "appId": "com.omc.istyle.desktop",
+    "productName": "iStyle Pro",
+    "copyright": "Copyright © 2026 One Mipham Corporation",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.cjs",
+      "preload.cjs",
+      "../mobile/dist/**/*"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "assets/icon.ico",
+      "artifactName": "iStyle-Pro-Setup-${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "iStyle Pro",
+      "license": "LICENSE.md",
+      "language": "2052"
+    },
+    "mac": {
+      "target": [
+        {
+          "target": "dmg",
+          "arch": ["x64", "arm64"]
+        }
+      ],
+      "category": "public.app-category.lifestyle",
+      "icon": "assets/icon.icns",
+      "artifactName": "iStyle-Pro-${version}-${arch}.${ext}",
+      "hardenedRuntime": true,
+      "gatekeeperAssess": false
+    },
+    "dmg": {
+      "title": "iStyle Pro Installer",
+      "contents": [
+        { "x": 130, "y": 220 },
+        { "x": 410, "y": 220, "type": "link", "path": "/Applications" }
+      ]
+    },
+    "linux": {
+      "target": ["AppImage", "deb"],
+      "category": "Lifestyle"
+    }
+  }
+}

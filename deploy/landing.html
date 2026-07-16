@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>iStyle Pro — AI 虚拟试穿 | One Mipham</title>
+  <meta name="description" content="AI 驱动的智能时尚平台 — 拍照即试穿，30 秒看到全新自己。98 元/月起，无限次 AI 生成。">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "PingFang SC", "Microsoft YaHei", sans-serif;
+      background: #0F172A; color: #F8FAFC; line-height: 1.6;
+    }
+    .container { max-width: 800px; margin: 0 auto; padding: 48px 24px; }
+    .hero { text-align: center; padding: 80px 0 48px; }
+    .hero h1 { font-size: 48px; font-weight: 700; color: #F8FAFC; margin-bottom: 16px; }
+    .hero p { font-size: 18px; color: #94A3B8; max-width: 480px; margin: 0 auto 32px; }
+    .hero .badge { display: inline-block; background: rgba(99,102,241,0.15); color: #C7D2FE; border: 1px solid rgba(99,102,241,0.3); padding: 6px 16px; border-radius: 20px; font-size: 14px; margin-bottom: 24px; }
+    .cta { display: inline-flex; gap: 12px; flex-wrap: wrap; justify-content: center; }
+    .btn { padding: 14px 32px; border-radius: 12px; font-size: 16px; font-weight: 600; text-decoration: none; cursor: pointer; border: none; transition: transform 0.15s, box-shadow 0.15s; }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 4px 24px rgba(99,102,241,0.3); }
+    .btn-primary { background: #6366F1; color: #fff; }
+    .btn-secondary { background: #1E293B; color: #F8FAFC; border: 1px solid #334155; }
+    .btn-secondary:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+
+    .section { margin: 64px 0; }
+    .section h2 { font-size: 28px; font-weight: 700; margin-bottom: 24px; text-align: center; }
+    .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+    .feature { background: #1E293B; border-radius: 14px; padding: 28px 24px; text-align: center; border: 1px solid #334155; }
+    .feature .icon { font-size: 36px; margin-bottom: 12px; }
+    .feature h3 { font-size: 18px; margin-bottom: 8px; }
+    .feature p { font-size: 14px; color: #94A3B8; }
+
+    .pricing { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+    .plan { background: #1E293B; border-radius: 14px; padding: 32px 24px; border: 1px solid #334155; text-align: center; position: relative; }
+    .plan.pro { border-color: #6366F1; border-width: 2px; }
+    .plan .tag { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); background: #6366F1; color: #fff; padding: 4px 16px; border-radius: 10px; font-size: 13px; font-weight: 600; }
+    .plan h3 { font-size: 20px; margin-bottom: 16px; }
+    .plan .price { font-size: 40px; font-weight: 700; color: #6366F1; margin-bottom: 4px; }
+    .plan .price small { font-size: 16px; font-weight: 400; color: #94A3B8; }
+    .plan .period { font-size: 14px; color: #64748B; margin-bottom: 20px; }
+    .plan .original { text-decoration: line-through; color: #64748B; font-size: 14px; margin-bottom: 4px; }
+    .plan ul { list-style: none; text-align: left; margin-bottom: 24px; }
+    .plan li { padding: 6px 0; font-size: 14px; color: #94A3B8; }
+    .plan li::before { content: "✓ "; color: #22C55E; font-weight: 700; }
+    .plan .btn { width: 100%; }
+
+    .steps { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .step { text-align: center; width: 160px; }
+    .step .num { width: 48px; height: 48px; border-radius: 50%; background: #6366F1; color: #fff; font-size: 20px; font-weight: 700; line-height: 48px; margin: 0 auto 12px; }
+    .step h4 { font-size: 16px; margin-bottom: 4px; }
+    .step p { font-size: 13px; color: #94A3B8; }
+
+    .platforms { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .platform { background: #1E293B; border-radius: 12px; padding: 16px 24px; border: 1px solid #334155; text-align: center; min-width: 120px; }
+    .platform .icon { font-size: 28px; margin-bottom: 8px; }
+    .platform span { display: block; font-size: 13px; color: #94A3B8; }
+
+    footer { text-align: center; padding: 48px 24px; border-top: 1px solid #1E293B; margin-top: 64px; }
+    footer p { color: #64748B; font-size: 13px; }
+    footer a { color: #6366F1; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="badge">🤖 AI Powered · One Mipham</div>
+      <h1>iStyle Pro</h1>
+      <p>拍照 → AI 分析 → 30 秒看到全新的自己。<br>智能虚拟试穿，你的私人 AI 形象顾问。</p>
+      <div class="cta">
+        <a href="https://istyle.app" class="btn btn-primary">立即试用（免费 3 次/天）</a>
+        <a href="#pricing" class="btn btn-secondary">查看方案</a>
+      </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="section">
+      <h2>三步焕新</h2>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><h4>拍全身照</h4><p>明亮处站立拍摄</p></div>
+        <div class="step"><div class="num">2</div><h4>选风格</h4><p>发型·职业·运动·休闲</p></div>
+        <div class="step"><div class="num">3</div><h4>看效果</h4><p>AI 生成你的新形象</p></div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section">
+      <h2>核心功能</h2>
+      <div class="features">
+        <div class="feature"><div class="icon">👔</div><h3>AI 智能试穿</h3><p>上传照片，选择风格，AI 即刻生成试穿效果</p></div>
+        <div class="feature"><div class="icon">💇</div><h3>发型模拟</h3><p>多种流行发型预览，找到最适合你的造型</p></div>
+        <div class="feature"><div class="icon">🎨</div><h3>风格探索</h3><p>职业、运动、休闲、典礼多场景覆盖</p></div>
+        <div class="feature"><div class="icon">📸</div><h3>Before/After</h3><p>滑动对比原始照片与 AI 效果，直观看到变化</p></div>
+        <div class="feature"><div class="icon">🔒</div><h3>隐私保护</h3><p>照片加密存储，7 天自动删除，数据主权在你</p></div>
+        <div class="feature"><div class="icon">☁️</div><h3>全平台覆盖</h3><p>Web · Windows · Mac · iOS PWA，随时随地</p></div>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="section" id="pricing">
+      <h2>简单定价</h2>
+      <div class="pricing">
+        <div class="plan">
+          <h3>🆓 Free</h3>
+          <div class="price">0<small> 元</small></div>
+          <div class="period">永久免费</div>
+          <ul>
+            <li>每日 3 次 AI 生成</li>
+            <li>基础风格模板</li>
+            <li>7 天历史记录</li>
+            <li>Web + PWA 访问</li>
+          </ul>
+          <a href="https://istyle.app" class="btn btn-secondary">免费开始</a>
+        </div>
+        <div class="plan pro">
+          <div class="tag">🎉 新年特惠</div>
+          <h3>⭐ Pro 年度</h3>
+          <div class="original">原价 ¥1,176/年</div>
+          <div class="price">588<small> 元</small></div>
+          <div class="period">/年 · 省 50%</div>
+          <ul>
+            <li>无限次 AI 生成</li>
+            <li>全部风格模板 + 优先新模板</li>
+            <li>365 天历史记录</li>
+            <li>3 个并发生成任务</li>
+            <li>桌面端 (Windows/Mac)</li>
+            <li>优先客服支持</li>
+          </ul>
+          <a href="https://istyle.app" class="btn btn-primary">立即订阅 ¥588/年</a>
+        </div>
+        <div class="plan">
+          <h3>⚡ Pro 月度</h3>
+          <div class="price">98<small> 元</small></div>
+          <div class="period">/月</div>
+          <ul>
+            <li>无限次 AI 生成</li>
+            <li>全部风格模板</li>
+            <li>90 天历史记录</li>
+            <li>2 个并发生成任务</li>
+            <li>桌面端 (Windows/Mac)</li>
+          </ul>
+          <a href="https://istyle.app" class="btn btn-primary">立即订阅 ¥98/月</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Platforms -->
+    <section class="section">
+      <h2>全平台支持</h2>
+      <div class="platforms">
+        <div class="platform"><div class="icon">🌐</div><strong>Web</strong><span>浏览器即用</span></div>
+        <div class="platform"><div class="icon">📱</div><strong>iOS</strong><span>PWA 添加到桌面</span></div>
+        <div class="platform"><div class="icon">🪟</div><strong>Windows</strong><span>安装包下载</span></div>
+        <div class="platform"><div class="icon">🍎</div><strong>Mac</strong><span>DMG 安装包</span></div>
+        <div class="platform"><div class="icon">🤖</div><strong>Android</strong><span>PWA 安装</span></div>
+      </div>
+    </section>
+
+    <!-- WeChat Pay -->
+    <section class="section" style="text-align: center;">
+      <h2>支付方式</h2>
+      <p style="color: #94A3B8; margin-bottom: 24px;">国内用户通过微信支付完成订阅，安全便捷</p>
+      <div class="platforms">
+        <div class="platform" style="border-color: #22C55E;">
+          <div class="icon">💚</div>
+          <strong style="color: #22C55E;">微信支付</strong>
+          <span>扫码即付</span>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>© 2026 <a href="https://onemipham.com">One Mipham Corporation</a> (北京华安麦逄科技有限公司)</p>
+      <p style="margin-top: 8px;">
+        <a href="https://istyle.app/privacy">隐私政策</a> ·
+        <a href="https://istyle.app/terms">服务条款</a> ·
+        <a href="mailto:privacy@istyle.app">联系我们</a>
+      </p>
+    </footer>
+  </div>
+</body>
+</html>

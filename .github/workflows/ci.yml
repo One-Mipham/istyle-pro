@@ -7,6 +7,7 @@ on:
     branches: [main, master]
 
 jobs:
+  # ── API + Shared: typecheck & tests ──
   api:
     runs-on: ubuntu-latest
     steps:
@@ -24,6 +25,7 @@ jobs:
       - run: pnpm --filter @istyle/api typecheck
       - run: pnpm --filter @istyle/api test
 
+  # ── Mobile: typecheck & tests ──
   mobile:
     runs-on: ubuntu-latest
     steps:
@@ -38,3 +40,102 @@ jobs:
       - run: pnpm install
       - run: pnpm --filter @istyle/mobile typecheck
       - run: pnpm --filter @istyle/mobile test
+
+  # ── PWA Build ──
+  pwa:
+    runs-on: ubuntu-latest
+    needs: [api, mobile]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - run: pnpm install
+      - run: pnpm --filter @istyle/mobile build:pwa
+      - uses: actions/upload-artifact@v4
+        with:
+          name: pwa-dist
+          path: apps/mobile/dist/
+
+  # ── Desktop: Build Windows installer ──
+  desktop-win:
+    runs-on: windows-latest
+    needs: [pwa]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - run: pnpm install
+      - uses: actions/download-artifact@v4
+        with:
+          name: pwa-dist
+          path: apps/mobile/dist/
+      - run: pnpm --filter @istyle/desktop build:win
+      - uses: actions/upload-artifact@v4
+        with:
+          name: istyle-pro-win-setup
+          path: apps/desktop/dist/*.exe
+
+  # ── Desktop: Build Mac installer ──
+  desktop-mac:
+    runs-on: macos-latest
+    needs: [pwa]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - run: pnpm install
+      - uses: actions/download-artifact@v4
+        with:
+          name: pwa-dist
+          path: apps/mobile/dist/
+      - run: pnpm --filter @istyle/desktop build:mac
+      - uses: actions/upload-artifact@v4
+        with:
+          name: istyle-pro-mac-dmg
+          path: apps/desktop/dist/*.dmg
+
+  # ── Deploy to Tencent Cloud (on push to main) ──
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    needs: [api, mobile, pwa]
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: 'pnpm'
+      - run: pnpm install
+      - uses: actions/download-artifact@v4
+        with:
+          name: pwa-dist
+          path: apps/mobile/dist/
+      - name: Deploy to Tencent Cloud
+        env:
+          DEPLOY_SERVER_IP: ${{ secrets.DEPLOY_SERVER_IP }}
+          DEPLOY_SERVER_USER: ${{ secrets.DEPLOY_SERVER_USER }}
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          bash deploy/scripts/deploy.sh production

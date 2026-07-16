@@ -10,6 +10,9 @@ const envSchema = z.object({
   REPLICATE_MODEL: z.string().default('prunaai/z-image-turbo-img2img'),
   REDIS_URL: z.string().url().default('redis://localhost:6379'),
   WEEKLY_COST_LIMIT_USD: z.coerce.number().default(100),
+  WECHAT_PAY_MCH_ID: z.string().optional(),
+  WECHAT_PAY_API_KEY: z.string().optional(),
+  WECHAT_PAY_NOTIFY_URL: z.string().url().default('https://istyle.app/api/payment/notify'),
 });
 
 export const config = envSchema.parse(process.env);

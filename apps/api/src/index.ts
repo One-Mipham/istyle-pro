@@ -8,6 +8,7 @@ import { userRoutes } from './routes/users.js';
 import { styleRoutes } from './routes/styles.js';
 import { uploadRoutes } from './routes/upload.js';
 import { generateRoutes } from './routes/generate.js';
+import { paymentRoutes } from './routes/payment.js';
 
 declare module 'fastify' {
   interface FastifyRequest {
@@ -40,6 +41,7 @@ await app.register(userRoutes, { prefix: '/api/users' });
 await app.register(styleRoutes, { prefix: '/api/styles' });
 await app.register(uploadRoutes, { prefix: '/api/upload' });
 await app.register(generateRoutes, { prefix: '/api/generate' });
+await app.register(paymentRoutes, { prefix: '/api/payment' });
 
 try {
   await app.listen({ port: config.PORT, host: config.HOST });

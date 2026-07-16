@@ -7,7 +7,10 @@
     "start": "expo start",
     "lint": "tsc --noEmit",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "build:web": "npx expo export --platform web",
+    "build:pwa": "npm run build:web && node scripts/pwa-postbuild.cjs",
+    "build": "npm run build:pwa"
   },
   "dependencies": {
     "@babel/runtime": "^7.29.2",

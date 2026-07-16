@@ -48,7 +48,28 @@
     },
     "web": {
       "bundler": "metro",
-      "output": "static"
+      "output": "static",
+      "name": "iStyle Pro",
+      "shortName": "iStyle",
+      "description": "AI-powered virtual try-on & style platform",
+      "themeColor": "#0F172A",
+      "backgroundColor": "#0F172A",
+      "lang": "zh-CN",
+      "dir": "ltr",
+      "display": "standalone",
+      "orientation": "portrait",
+      "scope": "/",
+      "startUrl": "/",
+      "barStyle": "black-translucent",
+      "preferRelatedApplications": false,
+      "icons": {
+        "192": "./assets/pwa-icon-192.png",
+        "512": "./assets/pwa-icon-512.png"
+      },
+      "splash": {
+        "backgroundColor": "#0F172A",
+        "resizeMode": "contain"
+      }
     },
     "extra": {
       "eas": {
