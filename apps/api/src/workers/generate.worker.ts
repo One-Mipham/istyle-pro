@@ -1,6 +1,7 @@
 import { Worker } from 'bullmq';
 import { config } from '../config.js';
 import { replicate } from '../lib/replicate.js';
+import { generateWithHunyuan, isHunyuanAvailable } from '../lib/hunyuan.js';
 import { supabaseAdmin } from '../lib/supabase.js';
 
 interface GenerateJob {
@@ -23,17 +24,48 @@ const worker = new Worker<GenerateJob>('image-generation', async (job) => {
     .update({ status: 'processing' })
     .eq('id', taskId);
 
-  const output = await replicate.run(MODEL as `${string}/${string}`, {
-    input: {
-      image: originalImageUrl,
-      prompt,
-      num_inference_steps: 28,
-      guidance: 3.5,
-    },
-  });
+  let resultUrl: string;
+  const provider = resolveProvider();
 
-  const resultUrl = String(Array.isArray(output) ? output[0] : output);
-  console.log(`[worker] Task ${taskId} completed: ${resultUrl}`);
+  try {
+    if (provider === 'hunyuan') {
+      resultUrl = await generateWithHunyuan({ prompt, imageUrl: originalImageUrl });
+      console.log(`[worker] Task ${taskId} completed via 腾讯混元`);
+    } else {
+      const output = await replicate.run(MODEL as `${string}/${string}`, {
+        input: {
+          image: originalImageUrl,
+          prompt,
+          num_inference_steps: 28,
+          guidance: 3.5,
+        },
+      });
+      resultUrl = String(Array.isArray(output) ? output[0] : output);
+      console.log(`[worker] Task ${taskId} completed via Replicate`);
+    }
+  } catch (primaryErr) {
+    // Fallback: if Hunyuan fails and Replicate is available, retry with Replicate
+    if (provider === 'hunyuan') {
+      console.warn(`[worker] Hunyuan failed, falling back to Replicate: ${(primaryErr as Error).message}`);
+      try {
+        const output = await replicate.run(MODEL as `${string}/${string}`, {
+          input: {
+            image: originalImageUrl,
+            prompt,
+            num_inference_steps: 28,
+            guidance: 3.5,
+          },
+        });
+        resultUrl = String(Array.isArray(output) ? output[0] : output);
+        console.log(`[worker] Task ${taskId} completed via Replicate (fallback)`);
+      } catch (fallbackErr) {
+        console.error(`[worker] Both providers failed for task ${taskId}`);
+        throw fallbackErr;
+      }
+    } else {
+      throw primaryErr;
+    }
+  }
 
   await supabaseAdmin
     .from('generation_history')
@@ -44,6 +76,17 @@ const worker = new Worker<GenerateJob>('image-generation', async (job) => {
   connection: { url: config.REDIS_URL },
   concurrency: 1,
 });
+
+/**
+ * Resolve AI provider based on config.
+ * auto → hunyuan if configured, else replicate
+ */
+function resolveProvider(): 'hunyuan' | 'replicate' {
+  if (config.AI_PROVIDER === 'hunyuan') return 'hunyuan';
+  if (config.AI_PROVIDER === 'replicate') return 'replicate';
+  // auto: prefer Hunyuan for China-based deployment
+  return isHunyuanAvailable() ? 'hunyuan' : 'replicate';
+}
 
 worker.on('failed', async (job, err) => {
   console.error(`[worker] Task ${job?.data?.taskId} failed:`, err.message);
@@ -60,5 +103,9 @@ worker.on('completed', (job) => {
   console.log(`[worker] Task ${job.data.taskId} completed successfully`);
 });
 
+const activeProvider = resolveProvider();
 console.log(`[worker] Generation worker started, watching queue "image-generation"`);
-console.log(`[worker] Using model: ${MODEL}`);
+console.log(`[worker] Primary provider: ${activeProvider === 'hunyuan' ? '腾讯混元' : 'Replicate'}`);
+if (activeProvider === 'hunyuan') {
+  console.log(`[worker] Fallback provider: Replicate (${MODEL})`);
+}

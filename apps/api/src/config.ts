@@ -13,6 +13,11 @@ const envSchema = z.object({
   WECHAT_PAY_MCH_ID: z.string().optional(),
   WECHAT_PAY_API_KEY: z.string().optional(),
   WECHAT_PAY_NOTIFY_URL: z.string().url().default('https://istyle.app/api/payment/notify'),
+  // Tencent Hunyuan (primary — 国内首选)
+  TENCENT_SECRET_ID: z.string().optional(),
+  TENCENT_SECRET_KEY: z.string().optional(),
+  HUNYUAN_MODEL: z.string().default('hunyuan-image'),
+  AI_PROVIDER: z.enum(['hunyuan', 'replicate', 'auto']).default('auto'),
 });
 
 export const config = envSchema.parse(process.env);
