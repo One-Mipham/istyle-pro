@@ -1,6 +1,7 @@
 import type { FastifyPluginAsync } from 'fastify';
 import { z } from 'zod';
 import { supabase, supabaseAdmin } from '../lib/supabase.js';
+import { TRIAL_DAYS, TRIAL_DAILY_QUOTA } from '@istyle/shared';
 
 const PASSWORD_REGEX = /^\d{8}$/;
 const PASSWORD_MESSAGE = 'Password must be 8 digits (e.g., birthdate 20001231)';
@@ -71,7 +72,19 @@ export const authRoutes: FastifyPluginAsync = async (app) => {
     }
 
     const userId = authData.user.id;
-    request.log.info({ event: 'user_registered', userId, email: body.email });
+
+    // Grant 7-day trial with 10 daily generations
+    const trialEnds = new Date();
+    trialEnds.setDate(trialEnds.getDate() + TRIAL_DAYS);
+    await supabaseAdmin.from('subscriptions').insert({
+      user_id: userId,
+      plan: 'free',
+      status: 'active',
+      daily_remaining: TRIAL_DAILY_QUOTA,
+      trial_ends_at: trialEnds.toISOString(),
+    });
+
+    request.log.info({ event: 'user_registered', userId, email: body.email, trialDays: TRIAL_DAYS });
     return reply.status(201).send({ user: mapProfile(profile) });
   });
 

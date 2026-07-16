@@ -2,14 +2,14 @@ import type { FastifyPluginAsync } from 'fastify';
 import { z } from 'zod';
 import { authenticate } from '../middleware/auth.js';
 import { supabaseAdmin } from '../lib/supabase.js';
-import { PRICING } from '@istyle/shared';
+import { PRICING, REFUND_WINDOW_DAYS, DAILY_FREE_QUOTA } from '@istyle/shared';
 import type { PlanTier } from '@istyle/shared';
 
 // Tencent Cloud WeChat Pay Native — 微信支付 Native
 // https://pay.weixin.qq.com/docs/merchant/products/native-payment/introduction.html
 
 const createOrderSchema = z.object({
-  plan: z.enum(['pro_monthly', 'pro_yearly']),
+  plan: z.enum(['pro_monthly', 'pro_yearly', 'lifetime']),
 });
 
 interface WechatPayOrder {
@@ -89,13 +89,17 @@ export const paymentRoutes: FastifyPluginAsync = async (app) => {
     }
 
     // Activate subscription
-    const now = new Date();
-    const expiresAt = new Date();
+    let expiresAt: string | null = null;
     if (order.plan === 'pro_monthly') {
-      expiresAt.setMonth(expiresAt.getMonth() + 1);
-    } else {
-      expiresAt.setFullYear(expiresAt.getFullYear() + 1);
+      const d = new Date();
+      d.setMonth(d.getMonth() + 1);
+      expiresAt = d.toISOString();
+    } else if (order.plan === 'pro_yearly') {
+      const d = new Date();
+      d.setFullYear(d.getFullYear() + 1);
+      expiresAt = d.toISOString();
     }
+    // lifetime: expiresAt stays null
 
     // Upsert subscription
     const { data: existing } = await supabaseAdmin
@@ -111,7 +115,7 @@ export const paymentRoutes: FastifyPluginAsync = async (app) => {
           plan: order.plan,
           status: 'active',
           daily_remaining: -1,
-          expires_at: expiresAt.toISOString(),
+          expires_at: expiresAt,
         })
         .eq('user_id', order.userId);
     } else {
@@ -122,7 +126,7 @@ export const paymentRoutes: FastifyPluginAsync = async (app) => {
           plan: order.plan,
           status: 'active',
           daily_remaining: -1,
-          expires_at: expiresAt.toISOString(),
+          expires_at: expiresAt,
         });
     }
 
@@ -143,5 +147,44 @@ export const paymentRoutes: FastifyPluginAsync = async (app) => {
     }
 
     return reply.send({ status: 'pending', amount: order.amount, plan: order.plan });
+  });
+
+  // POST /api/payment/refund — request refund within 7-day window
+  app.post('/refund', async (request, reply) => {
+    const { data: sub } = await supabaseAdmin
+      .from('subscriptions')
+      .select('plan, status, started_at, expires_at')
+      .eq('user_id', request.userId)
+      .eq('status', 'active')
+      .maybeSingle();
+
+    if (!sub) {
+      return reply.status(404).send({ error: 'not_found', message: 'No active subscription', statusCode: 404 });
+    }
+
+    if (sub.plan === 'free') {
+      return reply.status(400).send({ error: 'invalid_plan', message: 'Free plan cannot be refunded', statusCode: 400 });
+    }
+
+    const startedAt = new Date(sub.started_at);
+    const daysSinceStart = (Date.now() - startedAt.getTime()) / (1000 * 60 * 60 * 24);
+
+    if (daysSinceStart > REFUND_WINDOW_DAYS) {
+      return reply.status(400).send({
+        error: 'refund_window_closed',
+        message: `Refund window is ${REFUND_WINDOW_DAYS} days from purchase. ${Math.floor(daysSinceStart)} days have passed.`,
+        statusCode: 400,
+      });
+    }
+
+    // Process refund
+    await supabaseAdmin
+      .from('subscriptions')
+      .update({ status: 'cancelled', plan: 'free', daily_remaining: DAILY_FREE_QUOTA })
+      .eq('user_id', request.userId);
+
+    request.log.info({ event: 'refund_processed', userId: request.userId, plan: sub.plan, daysSinceStart });
+
+    return reply.send({ message: 'Refund processed. Subscription cancelled.' });
   });
 };

@@ -26,11 +26,12 @@ CREATE TABLE generation_history (
 CREATE TABLE subscriptions (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL REFERENCES user_profiles(id) ON DELETE CASCADE,
-  plan TEXT NOT NULL DEFAULT 'free' CHECK (plan IN ('free', 'pro_monthly', 'pro_yearly')),
+  plan TEXT NOT NULL DEFAULT 'free' CHECK (plan IN ('free', 'pro_monthly', 'pro_yearly', 'lifetime')),
   status TEXT NOT NULL DEFAULT 'active' CHECK (status IN ('active', 'cancelled', 'expired')),
   daily_remaining INT NOT NULL DEFAULT 3,
   started_at TIMESTAMPTZ NOT NULL DEFAULT now(),
-  expires_at TIMESTAMPTZ
+  expires_at TIMESTAMPTZ,
+  trial_ends_at TIMESTAMPTZ
 );
 
 CREATE INDEX idx_generation_history_user ON generation_history(user_id, created_at DESC);

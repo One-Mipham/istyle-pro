@@ -52,7 +52,7 @@ export interface GenerateResponse {
 }
 
 // ── Subscription ──
-export type PlanTier = 'free' | 'pro_monthly' | 'pro_yearly';
+export type PlanTier = 'free' | 'pro_monthly' | 'pro_yearly' | 'lifetime';
 export type SubscriptionStatus = 'active' | 'cancelled' | 'expired';
 
 export interface Subscription {
