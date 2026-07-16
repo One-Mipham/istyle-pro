@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - run: pnpm install
+      - run: pnpm install --filter @istyle/shared --filter @istyle/api
       - run: pnpm --filter @istyle/shared typecheck
       - run: pnpm --filter @istyle/shared test
       - run: pnpm --filter @istyle/api typecheck
@@ -37,7 +37,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - run: pnpm install
+      - run: pnpm install --filter @istyle/mobile
       - run: pnpm --filter @istyle/mobile typecheck
       - run: pnpm --filter @istyle/mobile test
 
@@ -54,7 +54,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - run: pnpm install
+      - run: pnpm install --filter @istyle/mobile
       - run: pnpm --filter @istyle/mobile build:pwa
       - uses: actions/upload-artifact@v4
         with:
@@ -74,7 +74,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - run: pnpm install
+      - run: pnpm install --filter @istyle/desktop
       - uses: actions/download-artifact@v4
         with:
           name: pwa-dist
@@ -98,7 +98,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - run: pnpm install
+      - run: pnpm install --filter @istyle/desktop
       - uses: actions/download-artifact@v4
         with:
           name: pwa-dist
@@ -124,7 +124,7 @@ jobs:
         with:
           node-version: 22
           cache: 'pnpm'
-      - run: pnpm install
+      - run: pnpm install --filter @istyle/api
       - uses: actions/download-artifact@v4
         with:
           name: pwa-dist
